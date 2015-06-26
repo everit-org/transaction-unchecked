@@ -19,25 +19,25 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 
-import javax.transaction.HeuristicRollbackException;
+import javax.transaction.InvalidTransactionException;
 
 /**
- * Wraps an {@link HeuristicRollbackException} with an unchecked exception.
+ * Wraps an {@link InvalidTransactionException} with an unchecked exception.
  */
-public class UncheckedHeuristicRollbackException extends RuntimeException {
+public class UncheckedInvalidTransactionException extends RuntimeException {
 
-  private static final long serialVersionUID = -3965473255295044176L;
+  private static final long serialVersionUID = -5518257356293204217L;
 
   /**
    * Constructs an instance of this class.
    *
    * @param cause
-   *          the {@code HeuristicRollbackException}
+   *          the {@code InvalidTransactionException}
    *
    * @throws NullPointerException
    *           if the cause is {@code null}
    */
-  public UncheckedHeuristicRollbackException(final HeuristicRollbackException cause) {
+  public UncheckedInvalidTransactionException(final InvalidTransactionException cause) {
     super(cause);
   }
 
@@ -47,24 +47,24 @@ public class UncheckedHeuristicRollbackException extends RuntimeException {
    * @param message
    *          the detail message, can be null
    * @param cause
-   *          the {@code HeuristicRollbackException}
+   *          the {@code InvalidTransactionException}
    *
    * @throws NullPointerException
    *           if the cause is {@code null}
    */
-  public UncheckedHeuristicRollbackException(final String message,
-      final HeuristicRollbackException cause) {
+  public UncheckedInvalidTransactionException(final String message,
+      final InvalidTransactionException cause) {
     super(message, cause);
   }
 
   /**
    * Returns the cause of this exception.
    *
-   * @return the {@code HeuristicRollbackException} which is the cause of this exception.
+   * @return the {@code InvalidTransactionException} which is the cause of this exception.
    */
   @Override
-  public synchronized HeuristicRollbackException getCause() {
-    return (HeuristicRollbackException) super.getCause();
+  public synchronized InvalidTransactionException getCause() {
+    return (InvalidTransactionException) super.getCause();
   }
 
   /**
@@ -72,14 +72,14 @@ public class UncheckedHeuristicRollbackException extends RuntimeException {
    *
    * @throws InvalidObjectException
    *           if the object is invalid or has a cause that is not an
-   *           {@code HeuristicRollbackException}
+   *           {@code InvalidTransactionException}
    */
   private void readObject(final ObjectInputStream s)
       throws IOException, ClassNotFoundException {
     s.defaultReadObject();
     Throwable cause = super.getCause();
-    if (!(cause instanceof HeuristicRollbackException)) {
-      throw new InvalidObjectException("Cause must be an HeuristicRollbackException");
+    if (!(cause instanceof InvalidTransactionException)) {
+      throw new InvalidObjectException("Cause must be an InvalidTransactionException");
     }
   }
 

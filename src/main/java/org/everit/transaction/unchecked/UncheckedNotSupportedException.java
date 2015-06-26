@@ -19,25 +19,25 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 
-import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
 
 /**
- * Wraps an {@link HeuristicRollbackException} with an unchecked exception.
+ * Wraps an {@link NotSupportedException} with an unchecked exception.
  */
-public class UncheckedHeuristicRollbackException extends RuntimeException {
+public class UncheckedNotSupportedException extends RuntimeException {
 
-  private static final long serialVersionUID = -3965473255295044176L;
+  private static final long serialVersionUID = 5495939523177836180L;
 
   /**
    * Constructs an instance of this class.
    *
    * @param cause
-   *          the {@code HeuristicRollbackException}
+   *          the {@code NotSupportedException}
    *
    * @throws NullPointerException
    *           if the cause is {@code null}
    */
-  public UncheckedHeuristicRollbackException(final HeuristicRollbackException cause) {
+  public UncheckedNotSupportedException(final NotSupportedException cause) {
     super(cause);
   }
 
@@ -47,39 +47,38 @@ public class UncheckedHeuristicRollbackException extends RuntimeException {
    * @param message
    *          the detail message, can be null
    * @param cause
-   *          the {@code HeuristicRollbackException}
+   *          the {@code NotSupportedException}
    *
    * @throws NullPointerException
    *           if the cause is {@code null}
    */
-  public UncheckedHeuristicRollbackException(final String message,
-      final HeuristicRollbackException cause) {
+  public UncheckedNotSupportedException(final String message,
+      final NotSupportedException cause) {
     super(message, cause);
   }
 
   /**
    * Returns the cause of this exception.
    *
-   * @return the {@code HeuristicRollbackException} which is the cause of this exception.
+   * @return the {@code NotSupportedException} which is the cause of this exception.
    */
   @Override
-  public synchronized HeuristicRollbackException getCause() {
-    return (HeuristicRollbackException) super.getCause();
+  public synchronized NotSupportedException getCause() {
+    return (NotSupportedException) super.getCause();
   }
 
   /**
    * Called to read the object from a stream.
    *
    * @throws InvalidObjectException
-   *           if the object is invalid or has a cause that is not an
-   *           {@code HeuristicRollbackException}
+   *           if the object is invalid or has a cause that is not an {@code NotSupportedException}
    */
   private void readObject(final ObjectInputStream s)
       throws IOException, ClassNotFoundException {
     s.defaultReadObject();
     Throwable cause = super.getCause();
-    if (!(cause instanceof HeuristicRollbackException)) {
-      throw new InvalidObjectException("Cause must be an HeuristicRollbackException");
+    if (!(cause instanceof NotSupportedException)) {
+      throw new InvalidObjectException("Cause must be an NotSupportedException");
     }
   }
 

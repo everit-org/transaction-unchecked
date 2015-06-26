@@ -19,27 +19,14 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 
-import javax.transaction.HeuristicRollbackException;
+import javax.transaction.SystemException;
 
 /**
- * Wraps an {@link HeuristicRollbackException} with an unchecked exception.
+ * Wraps an {@link SystemException} with an unchecked exception.
  */
-public class UncheckedHeuristicRollbackException extends RuntimeException {
+public class UncheckedSystemException extends RuntimeException {
 
-  private static final long serialVersionUID = -3965473255295044176L;
-
-  /**
-   * Constructs an instance of this class.
-   *
-   * @param cause
-   *          the {@code HeuristicRollbackException}
-   *
-   * @throws NullPointerException
-   *           if the cause is {@code null}
-   */
-  public UncheckedHeuristicRollbackException(final HeuristicRollbackException cause) {
-    super(cause);
-  }
+  private static final long serialVersionUID = -5734329361798516735L;
 
   /**
    * Constructs an instance of this class.
@@ -47,39 +34,51 @@ public class UncheckedHeuristicRollbackException extends RuntimeException {
    * @param message
    *          the detail message, can be null
    * @param cause
-   *          the {@code HeuristicRollbackException}
+   *          the {@code SystemException}
    *
    * @throws NullPointerException
    *           if the cause is {@code null}
    */
-  public UncheckedHeuristicRollbackException(final String message,
-      final HeuristicRollbackException cause) {
+  public UncheckedSystemException(final String message,
+      final SystemException cause) {
     super(message, cause);
+  }
+
+  /**
+   * Constructs an instance of this class.
+   *
+   * @param cause
+   *          the {@code SystemException}
+   *
+   * @throws NullPointerException
+   *           if the cause is {@code null}
+   */
+  public UncheckedSystemException(final SystemException cause) {
+    super(cause);
   }
 
   /**
    * Returns the cause of this exception.
    *
-   * @return the {@code HeuristicRollbackException} which is the cause of this exception.
+   * @return the {@code SystemException} which is the cause of this exception.
    */
   @Override
-  public synchronized HeuristicRollbackException getCause() {
-    return (HeuristicRollbackException) super.getCause();
+  public synchronized SystemException getCause() {
+    return (SystemException) super.getCause();
   }
 
   /**
    * Called to read the object from a stream.
    *
    * @throws InvalidObjectException
-   *           if the object is invalid or has a cause that is not an
-   *           {@code HeuristicRollbackException}
+   *           if the object is invalid or has a cause that is not an {@code SystemException}
    */
   private void readObject(final ObjectInputStream s)
       throws IOException, ClassNotFoundException {
     s.defaultReadObject();
     Throwable cause = super.getCause();
-    if (!(cause instanceof HeuristicRollbackException)) {
-      throw new InvalidObjectException("Cause must be an HeuristicRollbackException");
+    if (!(cause instanceof SystemException)) {
+      throw new InvalidObjectException("Cause must be an SystemException");
     }
   }
 
